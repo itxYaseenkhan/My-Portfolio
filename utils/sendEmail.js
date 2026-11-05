@@ -22,59 +22,25 @@
 
 
 
-  // import { Resend } from "resend";
+  import { Resend } from "resend";
 
-  // const resend = new Resend(process.env.RESEND_API_KEY);
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
-  // const sendEmail = async (options) => {
-  //   try {
-  //     await resend.emails.send({
-  //       from: "Portfolio <onboarding@resend.dev>", 
-  //       to: options.email,
-  //       subject: options.subject,
-  //       html: `<p>${options.message}</p>`,
-  //     });
-  //     console.log("✅ Email sent successfully via Resend!");
-  //   } catch (error) {
-  //     console.error("❌ Email sending failed:", error.message);
-  //     throw new Error(error.message);
-  //   }
-  // };
-
-  // export default sendEmail;
-
-
-
-import { Resend } from "resend";
-
-const apiKey = process.env.RESEND_API_KEY;
-
-if (!apiKey) {
-  throw new Error("RESEND_API_KEY is missing in environment variables.");
-}
-
-const resend = new Resend(apiKey);
-
-const sendEmail = async (options) => {
-  try {
-    const { data, error } = await resend.emails.send({
-      from: "Portfolio <onboarding@resend.dev>",
-      to: options.email,
-      subject: options.subject,
-      html: `<p>${options.message}</p>`,
-    });
-
-    if (error) {
+  const sendEmail = async (options) => {
+    try {
+      await resend.emails.send({
+        from: "Portfolio <onboarding@resend.dev>", 
+        to: options.email,
+        subject: options.subject,
+        html: `<p>${options.message}</p>`,
+      });
+      console.log("✅ Email sent successfully via Resend!");
+    } catch (error) {
+      console.error("❌ Email sending failed:", error.message);
       throw new Error(error.message);
     }
+  };
 
-    console.log("Email sent successfully!");
-    return data;
+  export default sendEmail;
 
-  } catch (error) {
-    console.error("Email sending failed:", error.message);
-    throw error;
-  }
-};
 
-export default sendEmail;
